@@ -1,7 +1,7 @@
 const express = require ('express')
 const app = express()
 require('dotenv').config()
-const backroutes = require('/home/adel/Desktop/Backend-First-Project/routes/Admin.js')
+const backroutes = require('./routes/Admin')
 const mongoose = require('mongoose');
 
 
