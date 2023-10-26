@@ -1,5 +1,5 @@
 const express = require('express')
-const router = express.Router()
+const adminrouter = express.Router()
 const { admincreate, adminget, adminupdate, admindelete } = require('../Controller/Admin.js');
 
 
@@ -7,14 +7,14 @@ const { admincreate, adminget, adminupdate, admindelete } = require('../Controll
 
 
 
-router.post('/admin',admincreate)
-router.get('/admin',adminget)
-router.put('/admin/:id',adminupdate)
-router.delete('/admin/:id',admindelete)
+adminrouter.post('/admin',admincreate)
+adminrouter.get('/admin',adminget)
+adminrouter.put('/admin/:id',adminupdate)
+adminrouter.delete('/admin/:id',admindelete)
 
 
 
 
 
 
-module.exports = router
+module.exports = adminrouter
