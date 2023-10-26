@@ -8,7 +8,8 @@ OwnerName:String,
 PhoneNumber:Number,
 Location:String,
 City:String,
-Area:String
+Area:String, 
+StoreImage:String,
 
 })
 
