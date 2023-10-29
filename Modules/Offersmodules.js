@@ -1,20 +1,21 @@
 const mongoose = require("mongoose");
 
-const Offersschema = new mongoose.Schema({
-  offersID: {
-    type: String,
-    required: true,
+const Offersschema = new mongoose.Schema(
+  {
+    offersID: {
+      type: String,
+      required: true,
+    },
+    productID: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+    },
   },
-  productID: {
-    type: String,
-    required: true,
-  },
-  description:{
-    type : String
-  }
-},
-{timestamps:true});
+  { timestamps: true }
+);
 
-const Offers = mongoose.model('Offer',Offersschema);
-module.exports= Offers;
-
+const Offers = mongoose.model("Offer", Offersschema);
+module.exports = Offers;

@@ -5,6 +5,7 @@ const Offers = require ('../Modules/Offersmodules')
 const offerscreate = async (req, res) => {
     const { offersID, productID,description } = req.body;
     try {
+      
       const offer = await Offers.create({ offersID, productID,description });
       res.status(200).json(offer);
     } catch (error) {

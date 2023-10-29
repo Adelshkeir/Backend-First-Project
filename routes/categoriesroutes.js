@@ -10,7 +10,7 @@ categoryrouter.post('/category',categorycreate)
 categoryrouter.get('/category',categoryget)
 categoryrouter.get('/category/:id',categorygetone)
 categoryrouter.patch('/category/:id',categoryupdate)
-categoryrouter.delete('/offers/:id',categorydelete)
+categoryrouter.delete('/category/:id',categorydelete)
 
 
 

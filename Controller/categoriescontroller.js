@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Category = require("../Modules/categoriesmodules");
 
+
+
 const categorycreate = async (req, res) => {
   const { categoryID, categoryName, storeID } = req.body;
   try {
@@ -15,6 +17,7 @@ const categorycreate = async (req, res) => {
   }
 };
 
+
 const categoryget = async (req, res) => {
   try {
     const category = await Category.find();
@@ -23,6 +26,7 @@ const categoryget = async (req, res) => {
     res.status(400).json({ error: { ...error } });
   }
 };
+
 
 const categorygetone = async (req, res) => {
   const { id } = req.params;
@@ -33,6 +37,7 @@ const categorygetone = async (req, res) => {
     res.status(400).json({ error: { ...error } });
   }
 };
+
 
 const categoryupdate = async (req, res) => {
   const { id } = req.params;
@@ -49,6 +54,7 @@ const categoryupdate = async (req, res) => {
   }
 };
 
+
 const categorydelete = async (req, res) => {
   const { id } = req.params;
   try {
@@ -58,6 +64,7 @@ const categorydelete = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 module.exports = {
   categorycreate,
