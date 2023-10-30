@@ -6,9 +6,9 @@ const Groceries =require("../Modules/GroceriesStorModules");
 
 
 const groceriescreate = async (req, res) => {
-    const { StoreName, OwnerName, PhoneNumber, Location, City, Area ,StoreImage } = req.body;
+    const { StoreName, OwnerName, PhoneNumber, Location, City, Area ,StoreImage} = req.body;
     try {
-      const groceries = await Groceries.create({ StoreName, OwnerName, PhoneNumber, Location, City, Area, StoreImage:`${req.get("host")}/${req.file.path}` });
+      const groceries = await Groceries.create({ StoreName, OwnerName, PhoneNumber, Location, City, Area, StoreImage:`${req.get("host")}/${req.file.path}`});
       res.status(200).json(groceries);
     } catch (error) {
       res.status(400).json({ error: error.message });
