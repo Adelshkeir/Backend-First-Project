@@ -1,17 +1,12 @@
 const mongoose = require("mongoose");
-
+const Groceries = require ('./GroceriesStorModules')
 const categoriesschema = new mongoose.Schema({
-  categoryID: {
-    type: String,
-    required: true,
-  },
   categoryName: {
     type: String,
     required: true,
   },
-  storyID:{
-    type : String,
-    required:true
+  storeID:{
+     type: mongoose.Schema.Types.ObjectId, ref: 'Groceries' ,
   }
 },
 {timestamps:true});

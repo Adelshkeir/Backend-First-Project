@@ -2,7 +2,6 @@ const mongoose =require('mongoose')
 
 
 const groceriesSchema=new mongoose.Schema({
-StoreID:{type:String, require:true, unique: true},
 StoreName:{type:String},
 OwnerName:{type:String},
 PhoneNumber:{type :Number},

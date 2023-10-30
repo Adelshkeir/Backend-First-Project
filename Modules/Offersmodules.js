@@ -1,13 +1,10 @@
 const mongoose = require("mongoose");
-
+const Products = require ('./productsmodules')
 const Offersschema = new mongoose.Schema(
   {
-    offersID: {
-      type: String,
-      required: true,
-    },
     productID: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Products',
       required: true,
     },
     description: {

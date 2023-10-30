@@ -7,15 +7,10 @@ const categoryrouter = require("./routes/categoriesroutes");
 const Groceryrouter = require("./routes/GroceriesStoreRoutes");
 const Productsrouter = require("./routes/productroutes");
 const mongoose = require("mongoose");
-// const upload = require("./configuration/Multer");
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// app.use(express.urlencoded());
-
-// app.use(upload.array());
-
 app.use([
   adminrouter,
   offersrouter,

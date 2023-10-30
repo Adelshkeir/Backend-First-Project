@@ -1,14 +1,10 @@
 const mongooose = require("mongoose");
 const Product = require("../Modules/productsmodules");
-// const multer = require("multer");
 
 const productcreate = async (req, res) => {
   const { productName, price, image, categoryID, storeID, newprice, itsnew } =
     req.body;
-  // return res.status(200).json("jbfhvfh");
-
   try {
-    // const productimage = req.files.map((file) => file.filename);
     const product = await Product.create({
       productName,
       price,
@@ -23,6 +19,8 @@ const productcreate = async (req, res) => {
     res.status(400).json({ ...error });
   }
 };
+
+
 
 const productget = async (req, res) => {
   try {
@@ -46,7 +44,6 @@ const productgetone = async (req, res) => {
 const productupdate = async (req, res) => {
   const { id } = req.params;
   const {
-    productID,
     productName,
     price,
     image,
@@ -56,14 +53,13 @@ const productupdate = async (req, res) => {
     itsnew,
   } = req.body;
   try {
-    const image = req.file.map((file) => file.filename);
     const product = await Product.findByIdAndUpdate(
       id,
       {
         productID,
         productName,
         price,
-        image,
+        image:`${req.get("host")}/${req.file.path}`,
         categoryID,
         storeID,
         newprice,
@@ -76,6 +72,8 @@ const productupdate = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+
 
 const productdelete = async (req, res) => {
   const { id } = req.params;

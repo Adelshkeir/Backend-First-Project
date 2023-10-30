@@ -3,10 +3,10 @@ const Offers = require ('../Modules/Offersmodules')
 
 
 const offerscreate = async (req, res) => {
-    const { offersID, productID,description } = req.body;
+    const { productID,description } = req.body;
     try {
       
-      const offer = await Offers.create({ offersID, productID,description });
+      const offer = await Offers.create({productID,description });
       res.status(200).json(offer);
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -42,11 +42,11 @@ const offerscreate = async (req, res) => {
 
   const offersupdate = async (req, res) => {
     const { id } = req.params;
-    const { offersID,productID,description } = req.body;
+    const {productID,description } = req.body;
     try {
       const offer = await Offers.findByIdAndUpdate(
         id,
-        {offersID,productID ,description },
+        {productID ,description },
         { new: true }
       );
       res.status(200).json(offer);

@@ -4,10 +4,12 @@ const Category = require("../Modules/categoriesmodules");
 
 
 const categorycreate = async (req, res) => {
-  const { categoryID, categoryName, storeID } = req.body;
+  const {  categoryName, storeID } = req.body;
+  if (!mongoose.Types.ObjectId.isValid(storeID)) {
+    return res.status(400).json({ error: 'Invalid storeID' });
+  }
   try {
     const category = await Category.create({
-      categoryID,
       categoryName,
       storeID,
     });
@@ -41,11 +43,14 @@ const categorygetone = async (req, res) => {
 
 const categoryupdate = async (req, res) => {
   const { id } = req.params;
-  const { categoryID, categoryName, storeID } = req.body;
+  const { categoryName, storeID } = req.body;
+  if (!mongoose.Types.ObjectId.isValid(storeID)) {
+    return res.status(400).json({ error: 'Invalid storeID' });
+  }
   try {
     const category = await Category.findByIdAndUpdate(
       id,
-      { categoryID, categoryName, storeID },
+      { categoryName, storeID },
       { new: true }
     );
     res.status(200).json(category);

@@ -6,10 +6,9 @@ const Groceries =require("../Modules/GroceriesStorModules");
 
 
 const groceriescreate = async (req, res) => {
-    const { StoreID, StoreName, OwnerName, PhoneNumber, Location, City, Area ,StoreImage } = req.body;
+    const { StoreName, OwnerName, PhoneNumber, Location, City, Area ,StoreImage } = req.body;
     try {
-      const StoreImage = req.file.map(file => file.filename)
-      const groceries = await Groceries.create({ StoreID, StoreName, OwnerName, PhoneNumber, Location, City, Area, StoreImage });
+      const groceries = await Groceries.create({ StoreName, OwnerName, PhoneNumber, Location, City, Area, StoreImage:`${req.get("host")}/${req.file.path}` });
       res.status(200).json(groceries);
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -55,7 +54,7 @@ const groceriesupdate = async (req, res) => {
       const image = req.file.map(file => file.filename)
       const groceries = await Groceries.findByIdAndUpdate(
         id,
-        { StoreID, StoreName, OwnerName, PhoneNumber, Location, City, Area ,StoreImage},
+        { StoreID, StoreName, OwnerName, PhoneNumber, Location, City, Area ,StoreImage:`${req.get("host")}/${req.file.path}`},
         { new: true }
       );
       res.status(200).json(groceries);
@@ -69,10 +68,10 @@ const groceriesupdate = async (req, res) => {
 
 
   const groceriesdelete = async (req, res) => {
-    const { StoreID} = req.params;
+    const { id} = req.params;
     try {
        await Groceries.findByIdAndDelete(
-        StoreID
+        id
       );
       res.status(200).json({message:"Groceries deleted succefully"});
     } catch (error) {
