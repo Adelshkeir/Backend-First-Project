@@ -8,7 +8,7 @@ const productcreate = async (req, res) => {
     const product = await Product.create({
       productName,
       price,
-      image: `${req.get("host")}/${req.file.path}`,
+      image: `${req.protocol}://${req.get("host")}/${req.file.path}`,
       categoryID,
       storeID,
       newprice,
@@ -19,8 +19,6 @@ const productcreate = async (req, res) => {
     res.status(400).json({ ...error });
   }
 };
-
-
 
 const productget = async (req, res) => {
   try {
@@ -43,15 +41,8 @@ const productgetone = async (req, res) => {
 
 const productupdate = async (req, res) => {
   const { id } = req.params;
-  const {
-    productName,
-    price,
-    image,
-    categoryID,
-    storeID,
-    newprice,
-    itsnew,
-  } = req.body;
+  const { productName, price, image, categoryID, storeID, newprice, itsnew } =
+    req.body;
   try {
     const product = await Product.findByIdAndUpdate(
       id,
@@ -59,7 +50,7 @@ const productupdate = async (req, res) => {
         productID,
         productName,
         price,
-        image:`${req.get("host")}/${req.file.path}`,
+        image: `${req.protocol}://${req.get("host")}/${req.file.path}`,
         categoryID,
         storeID,
         newprice,
@@ -72,8 +63,6 @@ const productupdate = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
-
 
 const productdelete = async (req, res) => {
   const { id } = req.params;

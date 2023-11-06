@@ -11,7 +11,7 @@ StoreImage:{type :String},
 })
 
 
-const Groceries= mongoose.model('Groceries',groceriesSchema)
+const Groceries= mongoose.model('Grocery',groceriesSchema)
 
 
 module.exports =Groceries;

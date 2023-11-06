@@ -7,10 +7,10 @@ const upload = require("../configuration/Multer");
 
 
 
-Groceryrouter.post('/groceries',upload.single("image"),groceriescreate)
+Groceryrouter.post('/groceries',upload.single("StoreImage"),groceriescreate)
 Groceryrouter.get('/groceries',groceriesget)
 Groceryrouter.get('/groceries/:id',grocerygetone)
-Groceryrouter.patch('/groceries/:id',upload.single("image"),groceriesupdate)
+Groceryrouter.patch('/groceries/:id',upload.single("StoreImage"),groceriesupdate)
 Groceryrouter.delete('/groceries/:id',groceriesdelete)
 
 
