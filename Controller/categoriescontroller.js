@@ -1,24 +1,29 @@
 const mongoose = require("mongoose");
 const Category = require("../Modules/categoriesmodules");
 
-
-
 const categorycreate = async (req, res) => {
-  const {  categoryName, storeID } = req.body;
+  const { categoryName, storeID } = req.body;
   if (!mongoose.Types.ObjectId.isValid(storeID)) {
-    return res.status(400).json({ error: 'Invalid storeID' });
+    return res.status(400).json({ error: "Invalid storeID" });
   }
   try {
-    const category = await Category.create({
+    // const category = await Category.create({
+    //   categoryName,
+    //   storeID,
+    // });
+    const category = new Category({
       categoryName,
       storeID,
     });
-    res.status(200).json(category);
+
+    category
+      .save()
+      .then((cat) => res.status(200).json(cat))
+      .catch((err) => res.status(500).json(err));
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
-
 
 const categoryget = async (req, res) => {
   try {
@@ -28,7 +33,6 @@ const categoryget = async (req, res) => {
     res.status(400).json({ error: { ...error } });
   }
 };
-
 
 const categorygetone = async (req, res) => {
   const { id } = req.params;
@@ -40,12 +44,11 @@ const categorygetone = async (req, res) => {
   }
 };
 
-
 const categoryupdate = async (req, res) => {
   const { id } = req.params;
   const { categoryName, storeID } = req.body;
   if (!mongoose.Types.ObjectId.isValid(storeID)) {
-    return res.status(400).json({ error: 'Invalid storeID' });
+    return res.status(400).json({ error: "Invalid storeID" });
   }
   try {
     const category = await Category.findByIdAndUpdate(
@@ -59,7 +62,6 @@ const categoryupdate = async (req, res) => {
   }
 };
 
-
 const categorydelete = async (req, res) => {
   const { id } = req.params;
   try {
@@ -69,7 +71,6 @@ const categorydelete = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
 
 module.exports = {
   categorycreate,

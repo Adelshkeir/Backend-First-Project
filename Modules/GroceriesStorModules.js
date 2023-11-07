@@ -1,17 +1,17 @@
-const mongoose =require('mongoose')
-const groceriesSchema=new mongoose.Schema({
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-StoreName:{type:String},
-OwnerName:{type:String},
-PhoneNumber:{type :Number},
-Location:{type :String},
-City:{type:String},
-Area:{type :String}, 
-StoreImage:{type :String},
-})
+const groceriesSchema = new mongoose.Schema({
+  StoreName: { type: String, unique: true },
+  OwnerName: { type: String },
+  PhoneNumber: { type: Number },
+  Location: { type: String },
+  City: { type: String },
+  Area: { type: String },
+  StoreImage: { type: String },
+  categories: [{ type: Schema.Types.ObjectId, ref: "Category" }],
+});
 
+const Groceries = mongoose.model("Grocery", groceriesSchema);
 
-const Groceries= mongoose.model('Grocery',groceriesSchema)
-
-
-module.exports =Groceries;
+module.exports = Groceries;
