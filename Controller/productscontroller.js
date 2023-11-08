@@ -22,8 +22,36 @@ const productcreate = async (req, res) => {
 
 const productget = async (req, res) => {
   try {
-    const product = await Product.find();
-    res.status(200).json(product);
+    const productData = await Product.aggregate([
+      {
+        $lookup: {
+          from: "groceries",
+          localField: "storeID",
+          foreignField: "_id",
+          as: "storeData",
+        },
+      },
+      { $unwind: "$storeData" },
+      {
+        $project: {
+          productName: 1,
+          price: 1,
+          image: 1,
+          storeData: {
+            StoreName: 1,
+            OwnerName: 1,
+            PhoneNumber: 1,
+            Location: 1,
+            City: 1,
+            Area: 1,
+            StoreImage: 1,
+          },
+          newprice: 1,
+          itsnew: 1,
+        },
+      },
+    ]);
+    res.status(200).json(productData);
   } catch (error) {
     res.status(400).json({ error: { ...error } });
   }
