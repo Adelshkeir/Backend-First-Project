@@ -23,6 +23,10 @@ app.use([
 
 app.use("/upload", express.static("upload"));
 
+app.use(cors({
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, 
+}));
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {

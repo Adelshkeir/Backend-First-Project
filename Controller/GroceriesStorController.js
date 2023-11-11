@@ -38,7 +38,7 @@ const grocerygetone = async (req, res) => {
         $lookup: {
           from: "categories",
           localField: "_id",
-          foreignField: "storeID",
+          foreignField: "storeID", // Update this field to match the actual field in the Category model
           as: "categories",
         },
       },
@@ -59,15 +59,16 @@ const grocerygetone = async (req, res) => {
       {
         $group: {
           _id: "$_id",
-          StoreName: { $first: "$StoreName" },
-          OwnerName: { $first: "$OwnerName" },
-          PhoneNumber: { $first: "$PhoneNumber" },
-          Location: { $first: "$Location" },
-          City: { $first: "$City" },
-          Area: { $first: "$Area" },
-          StoreImage: { $first: "$StoreImage" },
-          __v: { $first: "$__v" },
           categories: { $push: "$categories" },
+          storeData: { $first: "$$ROOT" },
+        },
+      },
+      {
+        $replaceRoot: { newRoot: "$storeData" },
+      },
+      {
+        $project: {
+          __v: 0,
         },
       },
     ]);
@@ -77,6 +78,8 @@ const grocerygetone = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+
 
 const groceriesupdate = async (req, res) => {
   const { id } = req.params;

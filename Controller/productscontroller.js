@@ -96,7 +96,7 @@ const productdelete = async (req, res) => {
   const { id } = req.params;
   try {
     await Product.findByIdAndDelete(id);
-    res.status(200).json({ message: "offers deleted succefully" });
+    res.status(200).json({ message: "product deleted succefully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

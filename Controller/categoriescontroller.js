@@ -27,22 +27,40 @@ const categorycreate = async (req, res) => {
 
 const categoryget = async (req, res) => {
   try {
-    const category = await Category.find();
+    const categories = await Category.aggregate([
+      {
+        $lookup: {
+          from: 'groceries',
+          localField: 'storeID',
+          foreignField: '_id',
+          as: 'storeData'
+        }
+      },
+      {
+        $project: {
+          categoryName: 1,
+          storeName: { $arrayElemAt: ['$storeData.StoreName', 0] }
+        }
+      }
+    ]);
+
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+
+const categorygetone = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const category = await Category.findById(id);
     res.status(200).json(category);
   } catch (error) {
     res.status(400).json({ error: { ...error } });
   }
 };
 
-const categorygetone = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const category = await Category.findById({ id });
-    res.status(200).json(category);
-  } catch (error) {
-    res.status(400).json({ error: { ...error } });
-  }
-};
 
 const categoryupdate = async (req, res) => {
   const { id } = req.params;
@@ -66,7 +84,7 @@ const categorydelete = async (req, res) => {
   const { id } = req.params;
   try {
     await Category.findByIdAndDelete(id);
-    res.status(200).json({ message: "offers deleted succefully" });
+    res.status(200).json({ message: "category deleted succefully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
