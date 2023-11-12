@@ -25,7 +25,7 @@ const groceriesget = async (req, res) => {
 
     res.status(200).json(groceries);
   } catch (error) {
-    res.status(400).json({ error: { ...error } });
+    res.status(500).json({ error: { ...error } });
   }
 };
 
@@ -37,34 +37,31 @@ const grocerygetone = async (req, res) => {
       {
         $lookup: {
           from: "categories",
-          localField: "_id",
-          foreignField: "storeID", // Update this field to match the actual field in the Category model
+          let: { storeId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: { $eq: ["$storeID", "$$storeId"] },
+              },
+            },
+            {
+              $lookup: {
+                from: "products",
+                localField: "_id",
+                foreignField: "categoryID",
+                as: "products",
+              },
+            },
+            {
+              $project: {
+                _id: 1,
+                categoryName: 1,
+                products: 1,
+              },
+            },
+          ],
           as: "categories",
         },
-      },
-      {
-        $unwind: {
-          path: "$categories",
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-      {
-        $lookup: {
-          from: "products",
-          localField: "categories._id",
-          foreignField: "categoryID",
-          as: "categories.products",
-        },
-      },
-      {
-        $group: {
-          _id: "$_id",
-          categories: { $push: "$categories" },
-          storeData: { $first: "$$ROOT" },
-        },
-      },
-      {
-        $replaceRoot: { newRoot: "$storeData" },
       },
       {
         $project: {
@@ -73,13 +70,14 @@ const grocerygetone = async (req, res) => {
       },
     ]);
 
+    // Access categories array from the result
+    // const categories = storeData[0]?.categories || [];
+
     res.status(200).json(storeData[0]);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
-
-
 
 const groceriesupdate = async (req, res) => {
   const { id } = req.params;
