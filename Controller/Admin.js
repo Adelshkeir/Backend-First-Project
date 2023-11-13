@@ -55,10 +55,35 @@ const adminupdate = async (req, res) => {
     }
   };
   
+
+  const loginAdmin = async (req, res) => {
+    const { username, password } = req.body;
+  
+    try {
+      const admin = await Admin.findOne({ username });
+  
+      if (!admin) {
+        return res.status(404).json({ error: "Admin not found" });
+      }
+  
+      if (password === admin.password) {
+        res.status(200).json({ status: "ok", data: admin });
+      } else {
+        res.status(401).json({ error: "Incorrect password" });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to retrieve the admin" });
+    }
+  };
+
+
+
   module.exports = {
     admincreate,
     adminget,
     adminupdate,
-    admindelete
+    admindelete,
+    loginAdmin
   };
   
